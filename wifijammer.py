@@ -337,11 +337,12 @@ def cb(pkt):
 
             # Filter out all other APs and clients if asked
             if args.accesspoint:
-                if args.accesspoint not in [pkt.addr1, pkt.addr2]:
+                if args.accesspoint.lower() not in [pkt.addr1, pkt.addr2]:
                     return
 
-            if args.skip == pkt.addr2:
-                return
+            if args.skip:
+                if args.skip.lower() == pkt.addr2:
+                    return
 
             # Check if it's added to our AP list
             if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
